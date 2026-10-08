@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2>Edit Menu Item</h2>
+    <a href="{{ url_for('admin.menu') }}" class="btn btn-secondary">Back to Menu</a>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <form method="POST">
+        <div class="form-group">
+            <label>Food Name</label>
+            <input type="text" name="name" class="form-control" value="{{ item.name }}" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="3">{{ item.description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select name="category" class="form-control" required>
+                <option value="Breakfast" {% if item.category=='Breakfast' %}selected{% endif %}>Breakfast</option>
+                <option value="Lunch" {% if item.category=='Lunch' %}selected{% endif %}>Lunch</option>
+                <option value="Snacks" {% if item.category=='Snacks' %}selected{% endif %}>Snacks</option>
+                <option value="Fast Food" {% if item.category=='Fast Food' %}selected{% endif %}>Fast Food</option>
+                <option value="Beverages" {% if item.category=='Beverages' %}selected{% endif %}>Beverages</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Price (₹)</label>
+            <input type="number" name="price" class="form-control" step="0.01" min="0.01" value="{{ item.price }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label>Image URL</label>
+            <input type="url" name="image" class="form-control" value="{{ item.image }}">
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" name="is_available" id="is_available" {% if item.is_available %}checked{% endif %}>
+            <label for="is_available" style="margin: 0;">Available</label>
+        </div>
+        <div style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Save Changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

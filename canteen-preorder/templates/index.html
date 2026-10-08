@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center; padding: 4rem 0;">
+    {% if db_error %}
+    <div class="alert alert-error">Database connection failed. Please check your credentials or MongoDB Atlas.</div>
+    {% endif %}
+    <h1 style="font-size: 3rem; color: var(--primary); margin-bottom: 0.5rem;">Campus Canteen</h1>
+    <h2 style="font-size: 1.5rem; color: var(--text-light); margin-bottom: 2rem;">Skip the Queue. Order Ahead. Eat on
+        Time.</h2>
+    <div>
+        <a href="{{ url_for('student.menu') }}" class="btn btn-primary"
+            style="font-size: 1.25rem; padding: 1rem 2rem;">Browse Menu</a>
+        {% if not session.get('user_id') %}
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary"
+            style="font-size: 1.25rem; padding: 1rem 2rem; margin-left: 1rem;">Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="grid" style="margin-top: 4rem; text-align: center;">
+    <div class="card">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">1. Browse Menu</h3>
+        <p>Explore our delicious meals and snacks.</p>
+    </div>
+    <div class="card">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">2. Place Pre-Order</h3>
+        <p>Select your items and choose a pickup time.</p>
+    </div>
+    <div class="card">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">3. Pick Up Without Waiting</h3>
+        <p>Collect your food and enjoy your meal!</p>
+    </div>
+</div>
+
+<div style="margin-top: 4rem;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">Popular Items</h2>
+    <div class="grid">
+        {% for item in popular_items %}
+        <div class="card">
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="food-img">
+            <h3>{{ item.name }}</h3>
+            <p style="color: var(--text-light); font-size: 0.9rem;">{{ item.description }}</p>
+            <p><strong>₹{{ item.price }}</strong></p>
+        </div>
+        {% else %}
+        <p style="text-align: center; grid-column: 1 / -1;">No popular items at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

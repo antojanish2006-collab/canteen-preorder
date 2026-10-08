@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 4rem auto; text-align: center; padding: 3rem;">
+    <div style="font-size: 4rem; color: var(--secondary); margin-bottom: 1rem;">&#10004;</div>
+    <h2 style="color: var(--secondary); margin-bottom: 2rem;">Order Placed Successfully!</h2>
+
+    <div
+        style="text-align: left; background-color: var(--bg-color); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+        <p style="margin-bottom: 0.5rem;"><strong>Order Number:</strong> {{ order.order_number }}</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Status:</strong> <span class="badge bg-yellow">{{ order.status
+                }}</span></p>
+        <p style="margin-bottom: 0.5rem;"><strong>Pickup Time:</strong> {{ order.pickup_time }}</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Payment:</strong> {{ order.payment_method }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+    </div>
+
+    <div>
+        <a href="{{ url_for('student.orders') }}" class="btn btn-primary">View My Orders</a>
+        <a href="{{ url_for('student.menu') }}" class="btn btn-secondary">Back to Menu</a>
+    </div>
+</div>
+{% endblock %}

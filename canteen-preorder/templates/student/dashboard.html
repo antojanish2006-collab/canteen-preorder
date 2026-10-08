@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 2rem;">Welcome, {{ session.get('name') }}</h2>
+
+<div class="grid" style="margin-bottom: 3rem;">
+    <div class="card" style="text-align: center;">
+        <h3>Total Orders</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--primary);">{{ total_orders }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Completed Orders</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--secondary);">{{ completed_orders }}</p>
+    </div>
+</div>
+
+{% if active_order %}
+<div class="card">
+    <h3 style="margin-bottom: 1rem;">Active Order</h3>
+    <table style="width: 100%;">
+        <tr>
+            <th>Order Number</th>
+            <td><a href="{{ url_for('student.order_detail', order_number=active_order.order_number) }}">{{
+                    active_order.order_number }}</a></td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td><span class="badge bg-blue">{{ active_order.status }}</span></td>
+        </tr>
+        <tr>
+            <th>Pickup Time</th>
+            <td>{{ active_order.pickup_time }}</td>
+        </tr>
+        <tr>
+            <th>Total Amount</th>
+            <td>₹{{ active_order.total_amount }}</td>
+        </tr>
+    </table>
+    <div style="margin-top: 1rem; text-align: right;">
+        <a href="{{ url_for('student.order_detail', order_number=active_order.order_number) }}"
+            class="btn btn-primary">Track Order</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

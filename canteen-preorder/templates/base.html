@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Canteen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}" class="logo">Campus Canteen</a>
+        <div class="nav-links">
+            {% if session.get('user_id') %}
+                {% if session.get('role') == 'admin' %}
+                    <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('admin.menu') }}">Manage Menu</a>
+                    <a href="{{ url_for('admin.orders') }}">Orders</a>
+                {% else %}
+                    <a href="{{ url_for('student.dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('student.menu') }}">Menu</a>
+                    <a href="{{ url_for('student.cart') }}">Cart ({{ session.get('cart', {}) | length }})</a>
+                    <a href="{{ url_for('student.orders') }}">My Orders</a>
+                {% endif %}
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('student.menu') }}">Browse Menu</a>
+                <a href="{{ url_for('auth.login') }}">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="color: white; margin-left: 1rem;">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

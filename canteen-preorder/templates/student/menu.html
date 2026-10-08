@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 2rem;">Menu</h2>
+
+<div
+    style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <div>
+        {% set categories = ['All', 'Breakfast', 'Lunch', 'Snacks', 'Fast Food', 'Beverages'] %}
+        {% for cat in categories %}
+        <a href="{{ url_for('student.menu', category=cat, search=current_search) }}"
+            class="badge {% if current_category == cat %}bg-blue{% else %}bg-gray{% endif %}"
+            style="text-decoration: none; padding: 0.5rem 1rem;">{{ cat }}</a>
+        {% endfor %}
+    </div>
+
+    <form method="GET" style="display: flex; gap: 0.5rem;">
+        <input type="hidden" name="category" value="{{ current_category }}">
+        <input type="text" name="search" class="form-control" placeholder="Search food..." value="{{ current_search }}"
+            style="width: auto;">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div class="grid">
+    {% for item in items %}
+    <div class="card">
+        <img src="{{ item.image }}" alt="{{ item.name }}" class="food-img">
+        <h3>{{ item.name }}</h3>
+        <p style="color: var(--text-light); font-size: 0.9rem; min-height: 40px;">{{ item.description }}</p>
+        <p><span class="badge bg-gray">{{ item.category }}</span></p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+            <span style="font-size: 1.25rem; font-weight: bold;">₹{{ item.price }}</span>
+            {% if item.is_available %}
+            <form action="{{ url_for('student.cart') }}" method="POST" style="margin: 0;">
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="item_id" value="{{ item._id }}">
+                <input type="hidden" name="redirect" value="menu">
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+            {% else %}
+            <button class="btn btn-secondary" disabled>Unavailable</button>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <p>No items found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

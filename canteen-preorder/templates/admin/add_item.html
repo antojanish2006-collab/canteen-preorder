@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2>Add Menu Item</h2>
+    <a href="{{ url_for('admin.menu') }}" class="btn btn-secondary">Back to Menu</a>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <form method="POST">
+        <div class="form-group">
+            <label>Food Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select name="category" class="form-control" required>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Snacks">Snacks</option>
+                <option value="Fast Food">Fast Food</option>
+                <option value="Beverages">Beverages</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Price (₹)</label>
+            <input type="number" name="price" class="form-control" step="0.01" min="0.01" required>
+        </div>
+        <div class="form-group">
+            <label>Image URL</label>
+            <input type="url" name="image" class="form-control" placeholder="https://...">
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" name="is_available" id="is_available" checked>
+            <label for="is_available" style="margin: 0;">Available</label>
+        </div>
+        <div style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Add Item</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

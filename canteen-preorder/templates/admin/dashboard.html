@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 2rem;">Admin Dashboard</h2>
+
+<div class="grid" style="margin-bottom: 3rem;">
+    <div class="card" style="text-align: center;">
+        <h3>Total Orders</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--primary);">{{ total_orders }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Pending</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: #F59E0B;">{{ pending_orders }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Preparing</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: #3B82F6;">{{ preparing_orders }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Ready</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: #10B981;">{{ ready_orders }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Completed</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: #059669;">{{ completed_orders }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Today's Revenue</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--primary);">₹{{ today_revenue }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Total Menu Items</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--text-dark);">{{ total_items }}</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h3>Available Items</h3>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--secondary);">{{ available_items }}</p>
+    </div>
+</div>
+{% endblock %}

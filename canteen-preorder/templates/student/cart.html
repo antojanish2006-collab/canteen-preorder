@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 2rem;">Shopping Cart</h2>
+
+{% if cart_items %}
+<div class="card" style="margin-bottom: 2rem;">
+    <table>
+        <thead>
+            <tr>
+                <th>Food</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td><strong>{{ item.name }}</strong></td>
+                <td>₹{{ item.price }}</td>
+                <td>
+                    <form action="{{ url_for('student.cart') }}" method="POST"
+                        style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="item_id" value="{{ item._id }}">
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control"
+                            style="width: 70px; padding: 0.25rem;">
+                        <button type="submit" class="btn btn-primary" style="padding: 0.25rem 0.5rem;">Update</button>
+                    </form>
+                </td>
+                <td>₹{{ item.subtotal }}</td>
+                <td>
+                    <form action="{{ url_for('student.cart') }}" method="POST">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="item_id" value="{{ item._id }}">
+                        <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem;">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 1.5rem;">Total: ₹{{ total }}</h3>
+        <div>
+            <a href="{{ url_for('student.menu') }}" class="btn btn-secondary">Continue Shopping</a>
+            <a href="{{ url_for('student.checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card" style="text-align: center; padding: 3rem;">
+    <h3 style="margin-bottom: 1rem;">Your cart is empty</h3>
+    <a href="{{ url_for('student.menu') }}" class="btn btn-primary">Browse Menu</a>
+</div>
+{% endif %}
+{% endblock %}

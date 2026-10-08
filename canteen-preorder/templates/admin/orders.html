@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="margin-bottom: 2rem;">Manage Orders</h2>
+
+<div class="card">
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Student Name</th>
+                    <th>Register Number</th>
+                    <th>Pickup Time</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><strong>{{ order.get('order_number') }}</strong></td>
+                    <td>{{ order.student_name }}</td>
+                    <td>{{ order.register_number }}</td>
+                    <td>{{ order.pickup_time }}</td>
+                    <td>₹{{ order.total_amount }}</td>
+                    <td>
+                        {% if order.status == 'Pending' %} <span class="badge bg-yellow">{{ order.status }}</span>
+                        {% elif order.status == 'Completed' %} <span class="badge bg-green">{{ order.status }}</span>
+                        {% elif order.status == 'Cancelled' %} <span class="badge bg-red">{{ order.status }}</span>
+                        {% else %} <span class="badge bg-blue">{{ order.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ order.created_at.strftime('%Y-%m-%d %I:%M %p') }}</td>
+                    <td>
+                        <a href="{{ url_for('admin.order_detail', order_number=order.get('order_number')) }}"
+                            class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">View</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" style="text-align: center;">No orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2>Order #{{ order.get('order_number') }}</h2>
+    <a href="{{ url_for('admin.orders') }}" class="btn btn-secondary">Back to Orders</a>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1fr;">
+    <div class="card">
+        <h3 style="margin-bottom: 1rem;">Ordered Items</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Food</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.get('items', []) %}
+                <tr>
+                    <td>{{ item.get('name') }}</td>
+                    <td>{{ item.get('quantity') }}</td>
+                    <td>₹{{ item.get('price') }}</td>
+                    <td>₹{{ item.get('subtotal') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center;">No items found</td>
+                </tr>
+                {% endfor %}
+                <tr style="font-weight: bold; background-color: #F9FAFB;">
+                    <td colspan="3" style="text-align: right;">Total</td>
+                    <td>₹{{ order.get('total_amount', 0) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-bottom: 1rem;">Order Details</h3>
+        <p><strong>Student:</strong> {{ order.get('student_name', 'Unknown') }}</p>
+        <p><strong>Register No:</strong> {{ order.get('register_number', 'Unknown') }}</p>
+        <p><strong>Date:</strong> {{ order.get('created_at').strftime('%Y-%m-%d %I:%M %p') if order.get('created_at')
+            else 'Not specified' }}</p>
+        <p><strong>Pickup Time:</strong> {{ order.get('pickup_time', 'Not specified') }}</p>
+        <p><strong>Payment:</strong> {{ order.get('payment_method', 'Cash on Pickup') }}</p>
+
+        <div style="margin-top: 2rem;">
+            <h4>Update Status</h4>
+            <form method="POST" style="margin-top: 1rem;">
+                <div class="form-group">
+                    <select name="status" class="form-control" {% if order.get('status', 'Pending' )=='Completed' or
+                        order.get('status', 'Pending' )=='Cancelled' %}disabled{% endif %}>
+                        <option value="Pending" {% if order.get('status', 'Pending' )=='Pending' %}selected{% endif %}>
+                            Pending</option>
+                        <option value="Confirmed" {% if order.get('status', 'Pending' )=='Confirmed' %}selected{% endif
+                            %}>Confirmed
+                        </option>
+                        <option value="Preparing" {% if order.get('status', 'Pending' )=='Preparing' %}selected{% endif
+                            %}>Preparing
+                        </option>
+                        <option value="Ready for Pickup" {% if order.get('status', 'Pending' )=='Ready for Pickup'
+                            %}selected{% endif %}>
+                            Ready for Pickup</option>
+                        <option value="Completed" {% if order.get('status', 'Pending' )=='Completed' %}selected{% endif
+                            %}>Completed
+                        </option>
+                        <option value="Cancelled" {% if order.get('status', 'Pending' )=='Cancelled' %}selected{% endif
+                            %}>Cancelled
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" {% if order.get('status', 'Pending'
+                    )=='Completed' or order.get('status', 'Pending' )=='Cancelled' %}disabled{% endif %}>Update
+                    Status</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
